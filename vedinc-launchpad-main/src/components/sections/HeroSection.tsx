@@ -43,6 +43,7 @@ const HeroSection = () => {
             >
               Cloud · Dev · Automation
             </motion.p>
+c
         </motion.div>
 
 

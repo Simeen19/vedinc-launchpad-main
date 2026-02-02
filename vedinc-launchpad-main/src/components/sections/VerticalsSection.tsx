@@ -41,9 +41,6 @@ const VerticalsSection = () => {
         {/* Title */}
         <motion.h2
           style={{ opacity: contentOpacity }}
-          initial={{ y: 20 }}
-          whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
           className="absolute top-16 left-1/2 -translate-x-1/2 text-4xl md:text-6xl font-display text-gradient z-20 tracking-wide"
         >
           Our Verticals
