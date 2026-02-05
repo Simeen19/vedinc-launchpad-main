@@ -1,9 +1,11 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
-import vedinbg from '@/assets/vedinbg.png';
+import { Link } from "react-router-dom";
+
 
 const navItems = ['Home', 'Course', 'Tools', 'About', 'Contact'];
+
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -76,26 +78,27 @@ const Navbar = () => {
             {open ? <X size={28} /> : <Menu size={28} />}
           </motion.button>
 
-          {/* Login */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="hidden sm:block px-4 py-2 rounded-lg
-               border border-white/20 bg-white/10
-               backdrop-blur-md text-sm"
-          >
-            Login
-          </motion.button>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              to="/Login"
+              className="hidden sm:block px-4 py-2 rounded-lg
+       border border-white/20 bg-white/10
+       backdrop-blur-md text-sm"
+            >
+              Login
+            </Link>
+          </motion.div>
 
-          {/* Signup */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="hidden sm:block px-4 py-2 rounded-lg
-               bg-primary text-primary-foreground text-sm"
-          >
-            Signup
-          </motion.button>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              to="/Signup"
+              className="hidden sm:block px-4 py-2 rounded-lg
+       bg-primary text-primary-foreground text-sm"
+            >
+              Signup
+            </Link>
+          </motion.div>
+
         </div>
 
       </motion.nav>

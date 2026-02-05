@@ -1,8 +1,10 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Star } from 'lucide-react';
 
 const VerticalsSection = () => {
+  const navigate = useNavigate();
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -33,12 +35,12 @@ const VerticalsSection = () => {
   };
 
   return (
-    <section 
+    <section
       ref={sectionRef}
       className="min-h-[120vh] relative bg-gradient-dark overflow-hidden"
     >
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden px-4">
-        
+
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -46,14 +48,14 @@ const VerticalsSection = () => {
           transition={{ duration: 0.8 }}
           className="text-4xl md:text-6xl font-display text-gradient mb-12 tracking-wide text-center"
         >
-          Courses 
+          Courses
         </motion.h2>
 
         <div className="relative w-full max-w-6xl h-[65vh] flex items-center justify-center" style={{ perspective: '1500px' }}>
-          
+
           {/* Left Door */}
           <motion.div
-            style={{ 
+            style={{
               rotateY: leftDoorRotate,
               transformOrigin: 'left center'
             }}
@@ -64,7 +66,7 @@ const VerticalsSection = () => {
 
           {/* Right Door */}
           <motion.div
-            style={{ 
+            style={{
               rotateY: rightDoorRotate,
               transformOrigin: 'right center'
             }}
@@ -75,7 +77,7 @@ const VerticalsSection = () => {
 
           {/* Center Content */}
           <motion.div
-            style={{ 
+            style={{
               opacity: contentOpacity,
               scale: contentScale
             }}
@@ -84,7 +86,7 @@ const VerticalsSection = () => {
             <div className="w-full px-6 md:px-16 max-w-5xl">
               {/* Top Text Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 w-full mb-8">
-                
+
                 {/* Left Side Content */}
                 <div className="text-left space-y-4">
                   <h3 className="text-2xl md:text-3xl font-display text-foreground tracking-wide">
@@ -121,6 +123,8 @@ const VerticalsSection = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="px-6 py-2.5 bg-primary text-primary-foreground rounded font-medium text-sm tracking-wide"
+                    onClick={() => navigate("/website-previews")}
+
                   >
                     Learn More
                   </motion.button>
@@ -130,14 +134,15 @@ const VerticalsSection = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={() => navigate("/industry-hub")}
                     className="px-6 py-2.5 border border-primary text-primary rounded font-medium text-sm tracking-wide"
                   >
                     Explore Courses
                   </motion.button>
-                  
+
                   <div className="flex items-center gap-2 text-primary text-xs font-medium tracking-wide">
                     <Star className="w-3 h-3 fill-primary animate-pulse" />
-                    Launching Soon 
+                    Launching Soon
                   </div>
                 </div>
               </div>

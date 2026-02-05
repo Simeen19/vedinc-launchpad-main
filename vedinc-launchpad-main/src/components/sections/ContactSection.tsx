@@ -44,13 +44,13 @@ const ContactSection = () => {
   ];
 
   return (
-    <section 
+    <section
       ref={sectionRef}
       className="min-h-screen relative bg-background overflow-hidden py-20"
     >
       {/* Background elements */}
       <div className="absolute inset-0">
-        <motion.div 
+        <motion.div
           style={{ y }}
           className="absolute top-0 left-0 w-full h-full"
         >
@@ -72,7 +72,7 @@ const ContactSection = () => {
               Get in <span className="text-gradient">Touch</span>
             </h2>
             <p className="text-base text-muted-foreground max-w-xl mx-auto">
-              Have a question about our Azure DevOps courses, certification paths, or corporate training? 
+              Have a question about our Azure DevOps courses, certification paths, or corporate training?
               We typically respond within 24 hours.
             </p>
           </motion.div>
@@ -117,7 +117,7 @@ const ContactSection = () => {
                 <div className="flex items-center gap-4">
                   <div className="flex -space-x-2">
                     {[1, 2, 3, 4].map((i) => (
-                      <div 
+                      <div
                         key={i}
                         className="w-8 h-8 rounded-full bg-primary/20 border-2 border-background flex items-center justify-center text-xs font-display text-primary"
                       >
@@ -193,18 +193,6 @@ const ContactSection = () => {
               </form>
             </motion.div>
           </div>
-
-          {/* Footer */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mt-16 pt-8 border-t border-border/30"
-          >
-            <p className="text-muted-foreground text-sm">
-              © 2024 VedInc. All rights reserved. IT, Super Simplified.
-            </p>
-          </motion.div>
         </div>
       </div>
     </section>
