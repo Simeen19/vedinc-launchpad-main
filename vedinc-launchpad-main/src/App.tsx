@@ -9,6 +9,9 @@ import PreviewListPage from "./link-preview/PreviewListPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import IndustryHub from "./pages/IndustryHub";
+import Admin from "./pages/Admin";
+import AdminCourses from "./pages/AdminCourses";
+import AdminGuard from "./components/admin/AdminGuard";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -24,6 +27,9 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/admin" element={<AdminGuard><Admin /></AdminGuard>} />
+          <Route path="/admin/courses" element={<AdminGuard><AdminCourses /></AdminGuard>} />
+
           <Route path="/industry-hub" element={<IndustryHub />} />
 
 

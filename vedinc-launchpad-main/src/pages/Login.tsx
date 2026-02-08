@@ -1,7 +1,51 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import VantaBackground from "@/components/VantaBackground";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate();
+
+    // 🔹 state
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    // 🔹 submit handler
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError("");
+
+        try {
+            const res = await fetch("http://localhost:5000/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                setError(data.message || "Login failed");
+                return;
+            }
+
+            // ✅ STORE TOKEN
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("role", data.user.role);
+
+            // ✅ REDIRECT
+            if (data.user.role === "ADMIN") {
+                navigate("/admin");
+            } else {
+                navigate("/");
+            }
+        } catch {
+            setError("Server error");
+        }
+    };
+
     return (
         <VantaBackground>
             <div className="min-h-screen flex items-center justify-center px-4">
@@ -18,7 +62,14 @@ const Login = () => {
                         Welcome back
                     </p>
 
-                    <form className="space-y-5">
+                    {/* ❌ error */}
+                    {error && (
+                        <div className="mb-4 text-sm text-red-400 text-center">
+                            {error}
+                        </div>
+                    )}
+
+                    <form className="space-y-5" onSubmit={handleLogin}>
                         <div>
                             <label className="block text-xs text-white/60 mb-1">
                                 Email
@@ -26,6 +77,9 @@ const Login = () => {
                             <input
                                 type="email"
                                 placeholder="user@gmail.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
                                 className="w-full rounded-lg bg-black/30 border border-white/20 px-4 py-2 text-white outline-none focus:border-cyan-400"
                             />
                         </div>
@@ -37,15 +91,19 @@ const Login = () => {
                             <input
                                 type="password"
                                 placeholder="••••••••"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
                                 className="w-full rounded-lg bg-black/30 border border-white/20 px-4 py-2 text-white outline-none focus:border-cyan-400"
                             />
                         </div>
 
                         <button
                             type="submit"
-                            className="w-full mt-4 py-2 rounded-lg bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition"
+                            disabled={loading}
+                            className="w-full mt-4 py-2 rounded-lg bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition disabled:opacity-50"
                         >
-                            Login
+                            {loading ? "Logging in..." : "Login"}
                         </button>
                     </form>
 

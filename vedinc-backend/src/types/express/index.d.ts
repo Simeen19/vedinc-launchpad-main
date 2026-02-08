@@ -1,4 +1,6 @@
-import { UserRole } from "@/modules/auth/auth.types";
+import "express";
+import { UserRole } from "../../modules/auth/auth.types";
+import { Multer } from "multer";
 
 declare global {
     namespace Express {
@@ -7,6 +9,9 @@ declare global {
                 id: string;
                 role: UserRole;
             };
+            file?: Multer.File;
         }
     }
 }
+
+export { };

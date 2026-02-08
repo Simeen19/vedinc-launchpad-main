@@ -2,6 +2,7 @@ import { Router } from "express";
 import authRoutes from "./modules/auth/auth.routes";
 import { authenticate } from "./middlewares/auth.middleware";
 import { requireRole } from "./middlewares/role.middleware";
+import courseRoutes from "./modules/courses/course.routes";
 
 const router = Router();
 
@@ -15,5 +16,6 @@ router.get(
 );
 
 router.use("/auth", authRoutes);
+router.use("/courses", courseRoutes);
 
 export default router;
