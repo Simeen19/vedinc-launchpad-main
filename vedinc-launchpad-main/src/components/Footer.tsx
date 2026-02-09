@@ -17,7 +17,7 @@ const Footer = () => {
                     <div className="text-center md:text-left">
                         <h3
                             className="text-xl font-semibold text-white"
-                            style={{ fontFamily: '"Times New Roman", Times, serif' }}
+
                         >
                             VedInc
                         </h3>

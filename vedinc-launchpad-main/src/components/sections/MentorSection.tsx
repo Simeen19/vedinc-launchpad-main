@@ -1,6 +1,11 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import { FunkyHeading } from "@/components/ui/FunkyHeading";
 import { useRef, useEffect } from 'react';
 import { Linkedin, Mail } from 'lucide-react';
+
+// Attempt to import - if this line causes the red error overlay, 
+// check if the file is actually in src/assets/bharat_pic.jpeg
+import mentorPic from '@/assets/bharat_pic.jpeg';
 
 const MentorSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -57,24 +62,28 @@ const MentorSection = () => {
                 transition={{ delay: 0.5 }}
                 className="absolute -top-3 -left-3 z-20"
               >
-                <div className="bg-primary/10 backdrop-blur-sm border border-primary/20 rounded px-3 py-1.5">
-                  <span className="text-primary text-xs font-medium tracking-wide">Azure Certified</span>
+                {/* Replace the div inside the first motion.div with this */}
+                <div className="bg-primary border border-primary/50 rounded px-3 py-1.5 shadow-[0_0_15px_rgba(var(--primary),0.3)]">
+                  <span className="text-primary-foreground text-xs font-bold tracking-wide">Azure Certified</span>
                 </div>
               </motion.div>
 
-              {/* Main Image Placeholder */}
+              {/* Main Image Container */}
               <motion.div
                 whileHover={{ scale: 1.01 }}
-                className="w-72 h-88 bg-card/60 backdrop-blur-sm border border-border/30 rounded-2xl overflow-hidden"
+                className="w-72 h-88 bg-card/60 backdrop-blur-sm border border-border/30 rounded-2xl overflow-hidden flex items-center justify-center"
               >
-                <div className="w-full h-full bg-gradient-to-b from-secondary/50 to-muted/50 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-24 h-24 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-3 border border-primary/20">
-                      <span className="text-3xl text-primary font-display">BR</span>
-                    </div>
-                    <p className="text-muted-foreground text-sm italic">Mentor Photo</p>
-                  </div>
-                </div>
+                {/* If mentorPic is undefined or the path is wrong, 
+                  this will just show a blank box instead of crashing the whole page.
+                */}
+                <img 
+                  src={mentorPic} 
+                  alt="Bharath Reddy" 
+                  className="w-full h-full object-cover object-top"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
               </motion.div>
 
               {/* Experience Badge */}
@@ -91,7 +100,6 @@ const MentorSection = () => {
               </motion.div>
             </div>
 
-            {/* Name below image */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -106,16 +114,10 @@ const MentorSection = () => {
 
           {/* Content Section */}
           <div className="relative">
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-display text-foreground mb-8 tracking-wide"
-            >
-              Meet the <span className="text-gradient">Mentor</span>
-            </motion.h2>
+            <FunkyHeading className="text-4xl md:text-5xl mb-8">
+              Meet the <span className="text-cyan-400">Mentor</span>
+            </FunkyHeading>
 
-            {/* Floating Blue Text Blocks */}
             <div className="relative space-y-6">
               <motion.div
                 style={{ x: floatX1, y: floatY1 }}
@@ -125,12 +127,8 @@ const MentorSection = () => {
                   initial={{ opacity: 0, x: 40 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  animate={{
-                    y: [0, -6, 0],
-                  }}
-                  transition={{
-                    y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-                  }}
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ y: { duration: 4, repeat: Infinity, ease: "easeInOut" } }}
                   className="bg-card/40 backdrop-blur-sm p-5 rounded-lg border-l-2 border-l-primary"
                 >
                   <p className="text-text-blue text-base leading-relaxed italic">
@@ -149,9 +147,7 @@ const MentorSection = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.3 }}
-                  animate={{
-                    y: [0, -8, 0],
-                  }}
+                  animate={{ y: [0, -8, 0] }}
                   className="bg-card/40 backdrop-blur-sm p-5 rounded-lg border-r-2 border-r-primary"
                 >
                   <p className="text-text-blue text-base leading-relaxed italic">
@@ -163,7 +159,6 @@ const MentorSection = () => {
               </motion.div>
             </div>
 
-            {/* Contact Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}

@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { FunkyHeading } from '@/components/ui/FunkyHeading';
 import { useRef, useState } from 'react';
 import { Mail, Phone, Send, MapPin } from 'lucide-react';
 
@@ -26,14 +27,14 @@ const ContactSection = () => {
     {
       icon: Mail,
       label: 'Email',
-      value: 'bharat.reddy@vedinc.in',
-      href: 'mailto:bharat.reddy@vedinc.in'
+      value: 'bharat@vedinc.in',
+      href: 'mailto:bharat@vedinc.in'
     },
     {
       icon: Phone,
       label: 'Phone',
-      value: '+91 9123456781',
-      href: 'tel:+919123456781'
+      value: '+91 9705255161',
+      href: 'tel:+919705255161'
     },
     {
       icon: MapPin,
@@ -68,9 +69,11 @@ const ContactSection = () => {
             viewport={{ once: true }}
             className="text-center mb-14"
           >
-            <h2 className="text-4xl md:text-5xl font-display mb-3 tracking-wide">
-              Get in <span className="text-gradient">Touch</span>
-            </h2>
+            <div className="mb-3">
+              <FunkyHeading className="text-4xl md:text-5xl">
+                Get in <span className="text-cyan-400">Touch</span>
+              </FunkyHeading>
+            </div>
             <p className="text-base text-muted-foreground max-w-xl mx-auto">
               Have a question about our Azure DevOps courses, certification paths, or corporate training?
               We typically respond within 24 hours.

@@ -1,5 +1,6 @@
 import VantaBackground from "@/components/VantaBackground";
 import { Link } from "react-router-dom";
+import { FunkyHeading } from "@/components/ui/FunkyHeading";
 
 const Signup = () => {
     return (
@@ -7,12 +8,9 @@ const Signup = () => {
             <div className="min-h-screen flex items-center justify-center px-4">
                 <div className="w-full max-w-md bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
 
-                    <h1
-                        className="text-3xl text-white text-center mb-2"
-                        style={{ fontFamily: '"Times New Roman", Times, serif' }}
-                    >
+                    <FunkyHeading headingLevel="h1" className="text-3xl text-center mb-2">
                         Sign Up
-                    </h1>
+                    </FunkyHeading>
 
                     <p className="text-center text-white/60 text-sm mb-8 italic tracking-wide">
                         Create your account

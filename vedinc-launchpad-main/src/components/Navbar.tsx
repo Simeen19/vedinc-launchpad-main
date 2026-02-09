@@ -1,11 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
-import { Link } from "react-router-dom";
-
+import { Link } from 'react-router-dom';
 
 const navItems = ['Home', 'Course', 'Tools', 'About', 'Contact'];
-
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -19,10 +17,8 @@ const Navbar = () => {
       const currentScrollY = window.scrollY;
 
       if (currentScrollY > lastScrollY && currentScrollY > 80) {
-        // scrolling down → hide
         setShow(false);
       } else {
-        // scrolling up → show
         setShow(true);
       }
 
@@ -52,6 +48,7 @@ const Navbar = () => {
       About: 'mentor',
       Contact: 'contact',
     };
+
     document.getElementById(sectionMap[item])?.scrollIntoView({
       behavior: 'smooth',
     });
@@ -65,15 +62,14 @@ const Navbar = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-transparent"
-
+        className="fixed top-0 left-0 right-0 z-50 bg-transparent font-sans"
       >
         <div className="w-full px-6 py-10 flex items-center justify-end gap-4">
           {/* Hamburger */}
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => setOpen((v) => !v)}
-            className="relative"
+            className="relative font-sans"
           >
             {open ? <X size={28} /> : <Menu size={28} />}
           </motion.button>
@@ -82,8 +78,8 @@ const Navbar = () => {
             <Link
               to="/Login"
               className="hidden sm:block px-4 py-2 rounded-lg
-       border border-white/20 bg-white/10
-       backdrop-blur-md text-sm"
+                         border border-white/20 bg-white/10
+                         backdrop-blur-md text-sm font-sans"
             >
               Login
             </Link>
@@ -93,14 +89,12 @@ const Navbar = () => {
             <Link
               to="/Signup"
               className="hidden sm:block px-4 py-2 rounded-lg
-       bg-primary text-primary-foreground text-sm"
+                         bg-primary text-primary-foreground text-sm font-sans"
             >
               Signup
             </Link>
           </motion.div>
-
         </div>
-
       </motion.nav>
 
       {/* Popup Menu */}
@@ -115,7 +109,8 @@ const Navbar = () => {
             className="fixed top-[96px] right-6 z-[100] w-64
                        backdrop-blur-2xl bg-white/10
                        border border-white/20
-                       rounded-2xl shadow-2xl p-6"
+                       rounded-2xl shadow-2xl p-6
+                       font-sans"
           >
             <div className="flex flex-col gap-4 text-sm font-medium">
               {navItems.map((item) => (
@@ -123,7 +118,7 @@ const Navbar = () => {
                   key={item}
                   whileHover={{ x: 4 }}
                   onClick={() => scrollToSection(item)}
-                  className="text-left hover:text-primary transition-colors"
+                  className="text-left hover:text-primary transition-colors font-sans"
                 >
                   {item}
                 </motion.button>

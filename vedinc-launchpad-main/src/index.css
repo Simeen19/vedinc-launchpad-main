@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap');
+
 
 @layer base {
   :root {
@@ -63,17 +63,31 @@
     @apply border-border;
   }
 
+  /* Critical Fix for Wobbling */
   html {
-    scroll-behavior: touch;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100vw;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Arial', sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    margin: 0;
   }
 
+  /* Ensure the React root doesn't overflow */
+  #root {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Font Headers */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-family: 'Arial', sans-serif;
   }
 }
 
@@ -82,7 +96,6 @@
     @apply bg-card/60 backdrop-blur-xl border border-border/50 rounded-2xl;
     box-shadow: var(--shadow-card);
   }
-
 
   .glow-text {
     text-shadow: 0 0 20px hsl(var(--primary) / 0.5), 0 0 40px hsl(var(--primary) / 0.3);
@@ -124,6 +137,7 @@
   }
 }
 
+/* Float Animation with Rotation */
 @keyframes float {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
@@ -150,15 +164,6 @@
   }
 }
 
-@keyframes orbit {
-  0% {
-    transform: rotate(0deg) translateX(100px) rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg) translateX(100px) rotate(-360deg);
-  }
-}
-
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
@@ -173,7 +178,7 @@
   animation: shimmer 6s linear infinite;
 }
 
-/* Scrollbar styling */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -191,16 +196,15 @@
   background: hsl(var(--primary) / 0.5);
 }
 
-/* Vanta fallback animated gradient (visible while topology isn't initialized) */
-@keyframes vanta-bg-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 .vanta-fallback {
   min-height: 100vh;
   background: linear-gradient(90deg, #0e1010, #003042, #001a2b);
   background-size: 200% 200%;
   animation: vanta-bg-shift 10s ease-in-out infinite;
+}
+
+@keyframes vanta-bg-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

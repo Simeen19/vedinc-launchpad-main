@@ -2,8 +2,7 @@ import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/sections/HeroSection';
 import VerticalsSection from '@/components/sections/VerticalsSection';
 import ToolsSection from '@/components/sections/ToolsSection';
-import MentorSection from '@/components/sections/MentorSection';
-import ContactSection from '@/components/sections/ContactSection';
+import MentorContactFusion from '@/components/sections/MentorContactFusion';
 import Footer from '@/components/Footer';
 
 const Index = () => {
@@ -23,12 +22,8 @@ const Index = () => {
         <ToolsSection />
       </section>
 
-      <section id="mentor">
-        <MentorSection />
-      </section>
-
-      <section id="contact">
-        <ContactSection />
+      <section id="mentor-contact">
+        <MentorContactFusion />
       </section>
 
       <Footer />

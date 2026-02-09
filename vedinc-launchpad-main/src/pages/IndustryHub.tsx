@@ -1,5 +1,6 @@
 import VantaBackground from "@/components/VantaBackground";
 import { Search } from "lucide-react";
+import { FunkyHeading } from "@/components/ui/FunkyHeading";
 
 const modules = [
     {
@@ -33,12 +34,9 @@ const IndustryHub = () => {
 
                 {/* Header */}
                 <div className="mb-12">
-                    <h1
-                        className="text-4xl mb-2"
-                        style={{ fontFamily: '"Times New Roman", Times, serif' }}
-                    >
+                    <FunkyHeading headingLevel="h1" className="text-4xl mb-2">
                         Industry-Ready Learning Hub
-                    </h1>
+                    </FunkyHeading>
                     <p className="text-white/60">
                         Expert-led modules designed for real-world industry readiness.
                     </p>
