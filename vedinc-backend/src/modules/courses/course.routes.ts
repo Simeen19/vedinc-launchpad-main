@@ -6,6 +6,7 @@ import {
     createPdfCourseWithUpload,
     listPdfCourses,
     deletePdfCourseController,
+    getPdfCourseForUserController,
 } from "./course.controller";
 
 const router = Router();
@@ -19,9 +20,15 @@ router.post(
     createPdfCourseWithUpload
 );
 
-
 // PUBLIC: list PDF courses
 router.get("/pdf", listPdfCourses);
+
+// USER: view/download single PDF
+router.get(
+    "/pdf/:id",
+    authenticate,
+    getPdfCourseForUserController
+);
 
 // ADMIN: delete PDF course
 router.delete(

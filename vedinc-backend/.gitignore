@@ -24,3 +24,6 @@ Thumbs.db
 *.tsbuildinfo
 
 /src/generated/prisma
+
+# Prisma
+/prisma/migrations/

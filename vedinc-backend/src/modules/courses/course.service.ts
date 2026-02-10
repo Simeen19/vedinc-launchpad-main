@@ -9,6 +9,10 @@ export const listCoursesService = () => {
     return repo.getAllCourses();
 };
 
-export const deleteCourseService = (id: string) => {
+export const deletePdfCourseService = (id: string) => {
     return repo.deleteCourseById(id);
+};
+
+export const getPdfCourseForUserService = (id: string) => {
+    return repo.getCourseById(id);
 };

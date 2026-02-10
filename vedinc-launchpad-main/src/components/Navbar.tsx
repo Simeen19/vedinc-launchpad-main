@@ -1,33 +1,23 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
-import { Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { Menu, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
-const navItems = ['Home', 'Course', 'Tools', 'About', 'Contact'];
+const navItems = ["Home", "Course", "Tools", "About", "Contact"];
 
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const [show, setShow] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const navigate = useNavigate();
+
+  // 🔑 auth state
+  const [token, setToken] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollY && currentScrollY > 80) {
-        setShow(false);
-      } else {
-        setShow(true);
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+    setToken(localStorage.getItem("token"));
+    setRole(localStorage.getItem("role"));
+  }, []);
 
   // Close on outside click
   useEffect(() => {
@@ -36,23 +26,30 @@ const Navbar = () => {
         setOpen(false);
       }
     };
-    if (open) document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    if (open) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
   const scrollToSection = (item: string) => {
     const sectionMap: Record<string, string> = {
-      Home: 'hero',
-      Course: 'verticals',
-      Tools: 'tools',
-      About: 'mentor',
-      Contact: 'contact',
+      Home: "hero",
+      Course: "verticals",
+      Tools: "tools",
+      About: "mentor",
+      Contact: "contact",
     };
 
     document.getElementById(sectionMap[item])?.scrollIntoView({
-      behavior: 'smooth',
+      behavior: "smooth",
     });
     setOpen(false);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate("/login");
+    window.location.reload(); // force navbar refresh
   };
 
   return (
@@ -69,31 +66,65 @@ const Navbar = () => {
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => setOpen((v) => !v)}
-            className="relative font-sans"
           >
             {open ? <X size={28} /> : <Menu size={28} />}
           </motion.button>
 
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              to="/Login"
-              className="hidden sm:block px-4 py-2 rounded-lg
-                         border border-white/20 bg-white/10
-                         backdrop-blur-md text-sm font-sans"
-            >
-              Login
-            </Link>
-          </motion.div>
+          {/* 🔓 NOT LOGGED IN */}
+          {!token && (
+            <>
+              <motion.div whileHover={{ scale: 1.05 }}>
+                <Link
+                  to="/login"
+                  className="hidden sm:block px-4 py-2 rounded-lg
+                             border border-white/20 bg-white/10
+                             backdrop-blur-md text-sm"
+                >
+                  Login
+                </Link>
+              </motion.div>
 
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              to="/Signup"
-              className="hidden sm:block px-4 py-2 rounded-lg
-                         bg-primary text-primary-foreground text-sm font-sans"
-            >
-              Signup
-            </Link>
-          </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }}>
+                <Link
+                  to="/signup"
+                  className="hidden sm:block px-4 py-2 rounded-lg
+                             bg-primary text-primary-foreground text-sm"
+                >
+                  Signup
+                </Link>
+              </motion.div>
+            </>
+          )}
+
+          {/* 👤 USER */}
+          {token && role === "USER" && (
+            <>
+              <button
+                onClick={logout}
+                className="hidden sm:block text-sm text-red-400"
+              >
+                Logout
+              </button>
+            </>
+          )}
+
+          {/* 🛠 ADMIN */}
+          {token && role === "ADMIN" && (
+            <>
+              <Link
+                to="/admin"
+                className="hidden sm:block text-sm hover:text-primary"
+              >
+                Admin
+              </Link>
+              <button
+                onClick={logout}
+                className="hidden sm:block text-sm text-red-400"
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
       </motion.nav>
 
@@ -105,12 +136,11 @@ const Navbar = () => {
             initial={{ opacity: 0, scale: 0.95, y: -10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
             className="fixed top-[96px] right-6 z-[100] w-64
                        backdrop-blur-2xl bg-white/10
                        border border-white/20
-                       rounded-2xl shadow-2xl p-6
-                       font-sans"
+                       rounded-2xl shadow-2xl p-6"
           >
             <div className="flex flex-col gap-4 text-sm font-medium">
               {navItems.map((item) => (
@@ -118,11 +148,21 @@ const Navbar = () => {
                   key={item}
                   whileHover={{ x: 4 }}
                   onClick={() => scrollToSection(item)}
-                  className="text-left hover:text-primary transition-colors font-sans"
+                  className="text-left hover:text-primary"
                 >
                   {item}
                 </motion.button>
               ))}
+
+              {token && (
+                <motion.button
+                  whileHover={{ x: 4 }}
+                  onClick={logout}
+                  className="text-left text-red-400"
+                >
+                  Logout
+                </motion.button>
+              )}
             </div>
           </motion.div>
         )}

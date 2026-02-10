@@ -13,6 +13,7 @@ import Admin from "./pages/Admin";
 import AdminCourses from "./pages/AdminCourses";
 import AdminGuard from "./components/admin/AdminGuard";
 const queryClient = new QueryClient();
+import AdminAdmins from "./pages/AdminAdmins";
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/admin/courses" element={<AdminGuard><AdminCourses /></AdminGuard>} />
 
           <Route path="/industry-hub" element={<IndustryHub />} />
+          <Route path="/admin/admins" element={<AdminGuard><AdminAdmins /></AdminGuard>} />
 
 
         </Routes>

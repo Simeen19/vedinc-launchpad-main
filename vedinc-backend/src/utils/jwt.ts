@@ -1,6 +1,6 @@
 import { sign, verify, Secret } from "jsonwebtoken";
 import { jwtConfig } from "../config/jwt";
-import { UserRole } from "../modules/auth/auth.types";
+import { UserRole } from "@prisma/client";
 
 type Payload = {
     id: string;

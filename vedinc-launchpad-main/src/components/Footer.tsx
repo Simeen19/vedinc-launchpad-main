@@ -1,9 +1,3 @@
-import {
-    Instagram,
-    Linkedin,
-    Phone,
-    MessageCircle,
-} from "lucide-react";
 
 const Footer = () => {
     return (
@@ -24,36 +18,6 @@ const Footer = () => {
                         <p className="mt-2 text-sm text-white/60 italic tracking-widest">
                             IT, SUPER SIMPLIFIED
                         </p>
-                    </div>
-
-                    {/* Social icons */}
-                    <div className="flex items-center gap-5">
-                        <a
-                            href="https://instagram.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="footer-icon"
-                        >
-                            <Instagram size={20} />
-                        </a>
-
-                        <a
-                            href="https://linkedin.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="footer-icon"
-                        >
-                            <Linkedin size={20} />
-                        </a>
-
-                        <a
-                            href="https://wa.me/9705255161"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="footer-icon"
-                        >
-                            <MessageCircle size={20} />
-                        </a>
                     </div>
                 </div>
 

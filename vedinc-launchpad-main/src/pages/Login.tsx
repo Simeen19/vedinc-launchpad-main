@@ -17,6 +17,7 @@ const Login = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
+        setLoading(true);
 
         try {
             const res = await fetch("http://localhost:5000/api/auth/login", {
@@ -32,18 +33,19 @@ const Login = () => {
                 return;
             }
 
-            // ✅ STORE TOKEN
             localStorage.setItem("token", data.token);
             localStorage.setItem("role", data.user.role);
 
-            // ✅ REDIRECT
-            if (data.user.role === "ADMIN") {
+            if (data.user.role === "ADMIN" || data.user.role === "SUPER_ADMIN") {
                 navigate("/admin");
             } else {
                 navigate("/");
             }
+
         } catch {
             setError("Server error");
+        } finally {
+            setLoading(false);
         }
     };
 

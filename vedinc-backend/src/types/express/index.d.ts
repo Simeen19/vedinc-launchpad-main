@@ -1,5 +1,5 @@
 import "express";
-import { UserRole } from "../../modules/auth/auth.types";
+import { UserRole } from "@prisma/client";
 import { Multer } from "multer";
 
 declare global {

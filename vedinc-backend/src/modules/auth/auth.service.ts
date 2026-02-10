@@ -1,10 +1,8 @@
-import prisma from "../../lib/prisma";
+import { findUserByEmail } from "./auth.repo";
 import { comparePassword } from "../../utils/hash";
 
 export const loginUser = async (email: string, password: string) => {
-    const user = await prisma.user.findUnique({
-        where: { email },
-    });
+    const user = await findUserByEmail(email);
 
     if (!user) {
         throw new Error("Invalid credentials");
