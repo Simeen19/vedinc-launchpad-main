@@ -59,13 +59,12 @@ Frontend:
 
 * TypeScript
 * CSS
-* (React / Next.js / Angular / other framework if applicable)
+* (React / Next.js / Angular)
 
 Backend:
 
 * Node.js
-* Express.js (if used)
-* Database integration (MongoDB / PostgreSQL / Supabase / etc., if applicable)
+* Database integration (Supabase)
 
 Package Management:
 
