@@ -1,4 +1,4 @@
-# Vedinc Launchpad
+# Vedinc Website
 
 ## Project Overview
 
