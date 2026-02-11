@@ -136,7 +136,7 @@ Navigate to the backend directory:
 
 ```
 cd vedinc-backend
-npm run dev
+npm start
 ```
 
 This typically starts the server at:
@@ -154,7 +154,7 @@ http://localhost:3001
 From the root frontend directory:
 
 ```
-npm start
+npm run dev
 ```
 
 This typically runs on:
