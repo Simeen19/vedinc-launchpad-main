@@ -25,7 +25,7 @@ export const FunkyHeading = ({ children, className, headingLevel = 'h2', delay =
       className={cn("relative", className)}
     >
       <Tag 
-        className="font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-cyan-100 to-cyan-400 drop-shadow-[2px_2px_0px_rgba(6,182,212,0.5)] transform hover:skew-x-1 transition-transform duration-300 uppercase"
+        className="font-black tracking-tighter text-white transform hover:skew-x-1 transition-transform duration-300 uppercase"
         style={{
             lineHeight: 1.1,
             WebkitTextStroke: "1px rgba(255,255,255,0.1)"

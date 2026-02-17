@@ -70,7 +70,7 @@ const ContactSection = () => {
             className="text-center mb-14"
           >
             <div className="mb-3">
-              <FunkyHeading className="text-4xl md:text-5xl">
+               <FunkyHeading className="text-4xl md:text-5xl">
                 Get in <span className="text-cyan-400">Touch</span>
               </FunkyHeading>
             </div>

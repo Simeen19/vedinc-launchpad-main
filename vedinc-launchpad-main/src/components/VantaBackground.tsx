@@ -66,7 +66,7 @@ const VantaBackground = ({ children, className = '' }: VantaBackgroundProps) => 
       ref={vantaRef}
       className={`relative w-full min-h-screen ${className}`}
     >
-      <div className="relative z-10 w-full h-full">
+      <div className="relative z-10 w-full">
         {children}
       </div>
     </div>

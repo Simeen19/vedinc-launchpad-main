@@ -7,15 +7,20 @@ import { Star } from 'lucide-react';
 const VerticalsSection = () => {
   const navigate = useNavigate();
   const sectionRef = useRef<HTMLDivElement>(null);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"]
   });
 
-  const leftDoorRotate = useTransform(scrollYProgress, [0.1, 0.4], [0, -105]);
-  const rightDoorRotate = useTransform(scrollYProgress, [0.1, 0.4], [0, 105]);
-  const contentOpacity = useTransform(scrollYProgress, [0.25, 0.45], [0, 1]);
-  const contentScale = useTransform(scrollYProgress, [0.25, 0.45], [0.95, 1]);
+  // Progress 0: Screen is blank
+  // Animation stretched over 0.6 progress for a slower feel
+  const headerY = useTransform(scrollYProgress, [0, 0.4], [800, 0]);
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
+  
+  const leftX = useTransform(scrollYProgress, [0.08, 0.48], [-800, 0]);
+  const rightX = useTransform(scrollYProgress, [0.08, 0.48], [800, 0]);
+  const contentOpacity = useTransform(scrollYProgress, [0.08, 0.35], [0, 1]);
 
   const services = {
     left: {
@@ -38,113 +43,91 @@ const VerticalsSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="min-h-[90vh] md:min-h-[120vh] relative bg-gradient-dark overflow-hidden font-sans"
+      className="min-h-[100vh] relative bg-gradient-dark overflow-x-hidden font-sans pt-16 pb-24"
     >
-      <div className="sticky top-0 h-screen flex flex-col items-center overflow-hidden px-4">
+      <div className="container mx-auto px-4 flex flex-col items-center">
+        {/* Header */}
+        <motion.div 
+          style={{ y: headerY, opacity: headerOpacity }}
+          className="mb-10 md:mb-16 z-70 relative text-center"
+        >
+          <h2 className="text-6xl md:text-6xl font-black text-white uppercase tracking-tighter">
+            Verticals
+          </h2>
+        </motion.div>
 
-        {/* Header - Changed to font-display and font-bold to match Tools & Tech */}
-        <div className="py-12 md:mb-12 z-50 relative text-center">
-          <FunkyHeading className="text-5xl md:text-7xl">
-            Courses
-          </FunkyHeading>
-        </div>
+        <div className="w-full max-w-6xl relative z-30">
+          <div className="w-full px-6 md:px-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 w-full items-stretch">
+              
+              {/* Left Side Section */}
+              <motion.div 
+                style={{ x: leftX, opacity: contentOpacity }}
+                className="flex flex-col justify-between h-full"
+              >
+                <div className="text-left space-y-6">
+                  <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter">
+                    {services.left.title}
+                  </h3>
+                  <p className="text-[#c1cbe0] text-lg font-medium">{services.left.description}</p>
+                  <p className="text-[#c1cbe0] text-base leading-relaxed">{services.left.details}</p>
+                </div>
+                
+                <div className="text-left mt-12 md:mt-20">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-bold text-sm tracking-widest uppercase shadow-[0_0_20px_rgba(var(--primary),0.3)] hover:shadow-[0_0_30px_rgba(var(--primary),0.5)] transition-shadow"
+                    onClick={() => {
+                      document.getElementById('mentor-contact')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    Learn More
+                  </motion.button>
+                </div>
+              </motion.div>
 
-        <div className="relative w-full max-w-6xl h-[75vh] md:h-[65vh] flex items-center justify-center" style={{ perspective: '1500px' }}>
-
-          {/* Left Door */}
-          <motion.div
-            style={{
-              rotateY: leftDoorRotate,
-              transformOrigin: 'left center'
-            }}
-            className="absolute left-0 w-1/2 h-full bg-card/80 backdrop-blur-sm border border-border/30 rounded-r-none z-20 shadow-2xl"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent" />
-          </motion.div>
-
-          {/* Right Door */}
-          <motion.div
-            style={{
-              rotateY: rightDoorRotate,
-              transformOrigin: 'right center'
-            }}
-            className="absolute right-0 w-1/2 h-full bg-card/80 backdrop-blur-sm border border-border/30 rounded-l-none z-20 shadow-2xl"
-          >
-            <div className="absolute inset-0 bg-gradient-to-l from-primary/5 to-transparent" />
-          </motion.div>
-
-          {/* Center Content */}
-          <motion.div
-            style={{
-              opacity: contentOpacity,
-              scale: contentScale
-            }}
-            className="absolute inset-0 z-30 flex flex-col items-center overflow-y-auto scrollbar-hide"
-          >
-            <div className="w-full px-6 md:px-16 max-w-5xl pt-10 pb-20 md:pt-0 md:pb-0 md:h-full md:flex md:items-center">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20 w-full">
-
-                {/* Left Side Section - Title updated to font-display font-bold */}
-                <div className="flex flex-col space-y-6">
-                  <div className="text-left space-y-4">
-                    <FunkyHeading headingLevel="h3" className="text-2xl md:text-3xl text-foreground">
-                      {services.left.title}
-                    </FunkyHeading>
-                    <p className="text-primary text-base italic">{services.left.description}</p>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{services.left.details}</p>
-                  </div>
-                  
-                  <div className="text-left">
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="px-6 py-2.5 bg-primary text-primary-foreground rounded font-semibold text-sm tracking-wide"
-                      onClick={() => navigate("/website-previews")}
-                    >
-                      Learn More
-                    </motion.button>
-                  </div>
+              {/* Right Side Section */}
+              <motion.div 
+                style={{ x: rightX, opacity: contentOpacity }}
+                className="border-l-0 md:border-l border-white/10 pl-0 md:pl-16 mt-16 md:mt-0 flex flex-col justify-between h-full"
+              >
+                <div className="text-left space-y-6">
+                  <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter">
+                    {services.right.title}
+                  </h3>
+                  <ul className="space-y-4">
+                    {services.right.items.map((item, index) => (
+                      <li key={index} className="flex items-center gap-4 text-[#c1cbe0] text-base">
+                        <span className="w-2 h-2 bg-primary rounded-full shadow-[0_0_8px_rgba(var(--primary),0.6)] flex-shrink-0" />
+                        <span className="font-medium text-[#c1cbe0]">{item.name}</span>
+                        {item.launching && (
+                          <Star className="w-4 h-4 text-primary fill-primary animate-pulse flex-shrink-0" />
+                        )}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
-                {/* Right Side Section - Title updated to font-display font-bold */}
-                <div className="flex flex-col space-y-6 border-l-0 md:border-l border-white/10 pl-0 md:pl-12">
-                  <div className="text-left space-y-4">
-                    <FunkyHeading headingLevel="h3" className="text-2xl md:text-3xl text-foreground">
-                      {services.right.title}
-                    </FunkyHeading>
-                    <ul className="space-y-3">
-                      {services.right.items.map((item, index) => (
-                        <li key={index} className="flex items-center gap-3 text-muted-foreground text-sm">
-                          <span className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_5px_rgba(var(--primary),0.5)]" />
-                          <span className="font-medium">{item.name}</span>
-                          {item.launching && (
-                            <Star className="w-3.5 h-3.5 text-primary fill-primary animate-pulse" />
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <div className="text-left flex flex-wrap items-center gap-6 mt-12 md:mt-20">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => navigate("/industry-hub")}
+                    className="px-8 py-3 border-2 border-primary text-primary rounded-lg font-bold text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors shadow-[0_0_15px_rgba(var(--primary),0.1)]"
+                  >
+                    Explore Courses
+                  </motion.button>
 
-                  <div className="text-left flex flex-wrap items-center gap-6">
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => navigate("/industry-hub")}
-                      className="px-6 py-2.5 border border-primary text-primary rounded font-normal text-sm tracking-wide"
-                    >
-                      Explore Courses
-                    </motion.button>
-
-                    <div className="flex items-center gap-2 text-primary text-xs font-normal tracking-wide">
-                      <Star className="w-3 h-3 fill-primary animate-pulse" />
-                      Launching Soon
-                    </div>
+                  <div className="flex items-center gap-2 text-primary text-[10px] font-black tracking-widest uppercase">
+                    <Star className="w-3 h-3 fill-primary animate-pulse" />
+                    Launching Soon
                   </div>
                 </div>
+              </motion.div>
 
-              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

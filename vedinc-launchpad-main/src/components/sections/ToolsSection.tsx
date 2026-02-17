@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, Variants } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, useScroll, Variants } from 'framer-motion';
 import { FunkyHeading } from "@/components/ui/FunkyHeading";
 
 // --- Logo Imports ---
@@ -11,7 +11,6 @@ import jenkinsLogo from '@/assets/Jenkins-removebg-preview.png';
 import terraformLogo from '@/assets/terraform-logo-removebg-preview.png';
 import linuxLogo from '@/assets/linux-tux-logo-png-transparent-svg-vector-bie-supply-14.png';
 import pythonLogo from '@/assets/python logo.png';
-import ansibleLogo from '@/assets/ansible-nobg-removebg-preview.png';
 import helmLogo from '@/assets/helm_logo-removebg-preview.png';
 import prometheusLogo from '@/assets/prometheous_logo-removebg-preview.png';
 import grafanaLogo from '@/assets/Grafana-removebg-preview.png';
@@ -24,24 +23,23 @@ import azureArtifactsLogo from '@/assets/azure-artifacts.png';
 import istioLogo from '@/assets/Istio-removebg-preview.png';
 
 const tools = [
-  { name: 'Azure', logo: azureLogo, size: 140, mobileSize: 90, isCenter: true, glow: 'rgba(0, 120, 212, 0.6)' },
-  { name: 'Docker', logo: dockerLogo, size: 90, mobileSize: 60, glow: 'rgba(36, 150, 237, 0.5)' },
-  { name: 'Kubernetes', logo: k8sLogo, size: 100, mobileSize: 65, glow: 'rgba(50, 108, 230, 0.5)' },
-  { name: 'Terraform', logo: terraformLogo, size: 85, mobileSize: 55, glow: 'rgba(132, 73, 229, 0.5)' },
-  { name: 'Python', logo: pythonLogo, size: 85, mobileSize: 55, glow: 'rgba(55, 115, 165, 0.5)' },
-  { name: 'Linux', logo: linuxLogo, size: 90, mobileSize: 60, glow: 'rgba(255, 215, 0, 0.4)' },
-  { name: 'Git', logo: gitLogo, size: 80, mobileSize: 45, glow: 'rgba(240, 80, 50, 0.5)' },
-  { name: 'Ansible', logo: ansibleLogo, size: 80, mobileSize: 45, glow: 'rgba(255, 255, 255, 0.3)' },
-  { name: 'Helm', logo: helmLogo, size: 80, mobileSize: 45, glow: 'rgba(15, 172, 230, 0.5)' },
-  { name: 'Prometheus', logo: prometheusLogo, size: 85, mobileSize: 55, glow: 'rgba(230, 82, 44, 0.5)' },
-  { name: 'Grafana', logo: grafanaLogo, size: 85, mobileSize: 55, glow: 'rgba(244, 104, 34, 0.5)' },
-  { name: 'VS Code', logo: vsCodeLogo, size: 75, mobileSize: 45, glow: 'rgba(0, 122, 204, 0.5)' },
-  { name: 'Azure Boards', logo: azureBoardsLogo, size: 85, mobileSize: 55, glow: 'rgba(0, 120, 212, 0.5)' },
-  { name: 'Azure Repos', logo: azureReposLogo, size: 85, mobileSize: 55, glow: 'rgba(255, 80, 0, 0.5)' },
-  { name: 'Azure Pipelines', logo: azurePipelinesLogo, size: 85, mobileSize: 55, glow: 'rgba(0, 100, 200, 0.5)' },
-  { name: 'Azure Test Plans', logo: azureTestPlansLogo, size: 85, mobileSize: 55, glow: 'rgba(0, 180, 0, 0.5)' },
-  { name: 'Azure Artifacts', logo: azureArtifactsLogo, size: 85, mobileSize: 55, glow: 'rgba(200, 50, 200, 0.5)' },
-  { name: 'Istio', logo: istioLogo, size: 85, mobileSize: 55, glow: 'rgba(70, 107, 186, 0.5)' },
+  { name: 'Azure', logo: azureLogo, size: 100, mobileSize: 70, glow: 'rgba(0, 120, 212, 0.6)' },
+  { name: 'Docker', logo: dockerLogo, size: 75, mobileSize: 50, glow: 'rgba(36, 150, 237, 0.5)' },
+  { name: 'Linux', logo: linuxLogo, size: 75, mobileSize: 50, glow: 'rgba(255, 215, 0, 0.4)' },
+  { name: 'Git', logo: gitLogo, size: 65, mobileSize: 38, glow: 'rgba(240, 80, 50, 0.5)' },
+  { name: 'VS Code', logo: vsCodeLogo, size: 72, mobileSize: 42, glow: 'rgba(0, 122, 204, 0.5)' },
+  { name: 'Kubernetes', logo: k8sLogo, size: 85, mobileSize: 55, glow: 'rgba(50, 108, 230, 0.5)' },
+  { name: 'Terraform', logo: terraformLogo, size: 70, mobileSize: 45, glow: 'rgba(132, 73, 229, 0.5)' },
+  { name: 'Python', logo: pythonLogo, size: 70, mobileSize: 45, glow: 'rgba(55, 115, 165, 0.5)' },
+  { name: 'Helm', logo: helmLogo, size: 65, mobileSize: 38, glow: 'rgba(15, 172, 230, 0.5)' },
+  { name: 'Prometheus', logo: prometheusLogo, size: 70, mobileSize: 45, glow: 'rgba(230, 82, 44, 0.5)' },
+  { name: 'Grafana', logo: grafanaLogo, size: 70, mobileSize: 45, glow: 'rgba(244, 104, 34, 0.5)' },
+  { name: 'Azure Boards', logo: azureBoardsLogo, size: 70, mobileSize: 45, glow: 'rgba(0, 120, 212, 0.5)' },
+  { name: 'Azure Repos', logo: azureReposLogo, size: 70, mobileSize: 45, glow: 'rgba(255, 80, 0, 0.5)' },
+  { name: 'Azure Pipelines', logo: azurePipelinesLogo, size: 70, mobileSize: 45, glow: 'rgba(0, 100, 200, 0.5)' },
+  { name: 'Azure Test Plans', logo: azureTestPlansLogo, size: 70, mobileSize: 45, glow: 'rgba(0, 180, 0, 0.5)' },
+  { name: 'Azure Artifacts', logo: azureArtifactsLogo, size: 70, mobileSize: 45, glow: 'rgba(200, 50, 200, 0.5)' },
+  { name: 'Istio', logo: istioLogo, size: 70, mobileSize: 45, glow: 'rgba(70, 107, 186, 0.5)' },
 ];
 
 const StarBackground = () => {
@@ -70,7 +68,7 @@ const StarBackground = () => {
   );
 };
 
-const FloatingTool = ({ tool, index, pos, mouseX, mouseY }: any) => {
+const FloatingTool = ({ tool, index, pos, mouseX, mouseY, rotation = 0 }: any) => {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -81,21 +79,19 @@ const FloatingTool = ({ tool, index, pos, mouseX, mouseY }: any) => {
 
   // Scale and offset adjustment to keep tools visible and out of heading/footer
   const scale = isMobile ? 0.45 : 1;
-  const horizontalSpread = isMobile ? 0.8 : 1.1; // Pack tighter horizontally on mobile
-  const verticalStretch = isMobile ? 1.4 : 0.8; // Stretch vertically on mobile to use screen height
+  const horizontalSpread = isMobile ? 0.8 : 1.2; 
+  const verticalStretch = isMobile ? 0.8 : 0.7; 
 
   const finalX = pos.x * scale * horizontalSpread;
-  const finalY = pos.y * scale * verticalStretch + (isMobile ? 50 : 20); // Shift down slightly
+  const finalY = pos.y * scale * verticalStretch + (isMobile ? 30 : 0);
 
-  const x = useSpring(useTransform(mouseX, [-500, 500], [finalX - 12, finalX + 12]), { stiffness: 50, damping: 35 });
-  const y = useSpring(useTransform(mouseY, [-300, 300], [finalY - 8, finalY + 8]), { stiffness: 50, damping: 35 });
+  const springConfig = { stiffness: 40, damping: 30 };
+  const x = useSpring(useTransform(mouseX, [-500, 500], [finalX - 15, finalX + 15]), springConfig);
+  const y = useSpring(useTransform(mouseY, [-300, 300], [finalY - 10, finalY + 10]), springConfig);
 
   return (
     <motion.div
       style={{ x, y }}
-      initial={{ opacity: 0, scale: 0 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
     >
       <motion.div 
@@ -127,6 +123,8 @@ const FloatingTool = ({ tool, index, pos, mouseX, mouseY }: any) => {
   );
 };
 
+
+
 const ToolsSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
@@ -135,13 +133,9 @@ const ToolsSection = () => {
   const positions = useMemo(() => {
     const posArr: { x: number; y: number }[] = [];
     
-    // We'll organize tools into "Orbits" with explicit safe counts
-    // Orbit count distribution
     const orbits = [
-      { radius: 0, items: 1 },    // Center (Azure)
-      { radius: 220, items: 5 },  // Ring 1
-      { radius: 400, items: 6 },  // Ring 2
-      { radius: 560, items: 6 }   // Ring 3
+      { radius: 280, items: 6 },  
+      { radius: 460, items: 11 }  
     ];
     
     let currentItem = 0;
@@ -150,27 +144,17 @@ const ToolsSection = () => {
       for (let i = 0; i < orbit.items; i++) {
         if (currentItem >= tools.length) break;
         
-        const tool = tools[currentItem];
-        if (tool.isCenter) {
-          posArr.push({ x: 0, y: 0 });
-          currentItem++;
-          continue;
-        }
-
-        const angle = (2 * Math.PI * i) / orbit.items + (orbitIdx * 0.5); // Stagger rings
+        const angle = (2 * Math.PI * i) / orbit.items + (orbitIdx * 0.5); 
         const radius = orbit.radius;
         
-        // Add minimal jitter to avoid looking like a rigid grid, but keep within bounds
-        const jitter = 25;
-        const x = Math.cos(angle) * radius + (Math.random() - 0.5) * jitter;
-        const y = Math.sin(angle) * radius + (Math.random() - 0.5) * jitter;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
 
         posArr.push({ x, y });
         currentItem++;
       }
     });
 
-    // Handle any remaining items if the counts didn't match (fallback)
     while (posArr.length < tools.length) {
       const angle = Math.random() * Math.PI * 2;
       const radius = 600 + Math.random() * 100;
@@ -192,36 +176,75 @@ const ToolsSection = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  const sideX = useTransform(scrollYProgress, [0, 0.4], [-200, 0]);
+  const sideOpacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
+
   return (
     <section 
       ref={sectionRef} 
-      className="min-h-screen relative bg-[#01040f] overflow-hidden flex flex-col items-center pt-32 pb-24"
+      className="min-h-[120vh] relative bg-[#01040f] overflow-x-hidden flex flex-col items-center justify-center py-20"
     >
       <StarBackground />
-      
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        className="text-center relative z-30 mb-20 pointer-events-none px-4"
-      >
-        <FunkyHeading className="text-5xl md:text-7xl lg:text-8xl text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 to-blue-600 font-black">
-          Tools & Technologies
-        </FunkyHeading>
-        <p className="text-blue-400/60 mt-4 text-sm md:text-base tracking-[0.2em] uppercase font-medium">
-          The Powerhouse of Our Innovation
-        </p>
-      </motion.div>
 
-      <div className="relative h-[650px] md:h-[750px] w-full max-w-7xl z-20 flex items-center justify-center">
-        {tools.map((tool, index) => (
-          <FloatingTool 
-            key={tool.name} 
-            tool={tool} 
-            index={index} 
-            pos={positions[index]}
-            mouseX={mouseX} 
-            mouseY={mouseY} 
-          />
+      {/* Vertical Side Heading - Pure Scroll Parallax */}
+      <div className="absolute left-8 md:left-16 top-0 bottom-0 flex items-center z-40">
+        <motion.div
+          style={{ x: sideX, opacity: sideOpacity }}
+        >
+          <h2 
+            className="text-5xl md:text-6xl lg:text-7xl font-black text-slate-100 uppercase tracking-tighter whitespace-nowrap"
+            style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+          >
+            Tech Stack
+          </h2>
+        </motion.div>
+      </div>
+      
+      <div className="relative h-[600px] md:h-[700px] w-full max-w-[90vw] z-20 flex items-center justify-center">
+        {/* Central Azure Logo */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="absolute z-50 pointer-events-none flex flex-col items-center"
+        >
+          <motion.div
+            animate={{ y: [0, -20, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="relative"
+          >
+            {/* Glow effect behind Azure */}
+            <div className="absolute inset-0 blur-[60px] bg-blue-600/20 rounded-full scale-150" />
+            <img 
+              src={azureLogo} 
+              alt="Azure" 
+              className="w-32 h-32 md:w-56 md:h-56 object-contain relative z-10 filter drop-shadow-[0_0_30px_rgba(0,120,212,0.3)]" 
+            />
+          </motion.div>
+        </motion.div>
+ 
+        {/* Other Tools orbiting */}
+        {tools.filter(t => t.name !== 'Azure').map((tool, index) => (
+          <motion.div
+            key={tool.name}
+            initial={{ opacity: 0, scale: 0 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.05 * index, duration: 0.8, ease: "backOut" }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <FloatingTool 
+              tool={tool} 
+              index={index} 
+              pos={positions[index]}
+              mouseX={mouseX} 
+              mouseY={mouseY} 
+            />
+          </motion.div>
         ))}
       </div>
       

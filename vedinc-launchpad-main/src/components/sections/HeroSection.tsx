@@ -36,20 +36,16 @@ const HeroSection = () => {
             variants={heroItem}
             src={vedinbg}
             alt="Vedinc Logo"
-            className="h-16 md:h-24 lg:h-28 w-auto mx-auto object-contain"
+            className="h-24 md:h-40 lg:h-48 w-auto mx-auto object-contain"
             style={{
-              filter:
-                'drop-shadow(0px 0px 6px rgba(40, 40, 40, 0.9)) ' +
-                'drop-shadow(0px 0px 16px rgba(90, 90, 90, 0.45)) ' +
-                'drop-shadow(0px 0px 28px rgba(0, 0, 0, 0.25))',
-              marginBottom: '-0.2rem',
+              marginBottom: '0.75rem',
             }}
           />
 
           {/* Subheading */}
           <motion.p
             variants={heroItem}
-            className="mt-1 text-sm md:text-base text-white font-semibold font-sans tracking-wide uppercase"
+            className="text-base md:text-lg lg:text-xl text-white font-black font-sans tracking-[0.2em] md:tracking-[0.3em] uppercase opacity-90"
           >
             IT, SUPER SIMPLIFIED
           </motion.p>

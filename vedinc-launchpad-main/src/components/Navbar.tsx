@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
-const navItems = ["Home", "Course", "Tools", "About", "Contact"];
+const navItems = ["Home", "Verticals", "Contact"];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -19,24 +19,23 @@ const Navbar = () => {
     setRole(localStorage.getItem("role"));
   }, []);
 
-  // Close on outside click
+  // Prevent scroll when menu is open
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
     };
-    if (open) document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
   const scrollToSection = (item: string) => {
     const sectionMap: Record<string, string> = {
       Home: "hero",
-      Course: "verticals",
-      Tools: "tools",
-      About: "mentor",
-      Contact: "contact",
+      Verticals: "verticals",
+      Contact: "mentor-contact",
     };
 
     document.getElementById(sectionMap[item])?.scrollIntoView({
@@ -54,117 +53,133 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Navbar */}
+      {/* Main Navbar Bar */}
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6 }}
         className="fixed top-0 left-0 right-0 z-50 bg-transparent font-sans"
       >
-        <div className="w-full px-6 py-10 flex items-center justify-end gap-4">
-          {/* Hamburger */}
+        <div className="w-full px-10 py-10 flex items-center justify-between">
+          {/* Burger (Left) */}
           <motion.button
             whileTap={{ scale: 0.9 }}
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => setOpen(true)}
+            className={`text-white hover:text-blue-500 transition-colors ${open ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
           >
-            {open ? <X size={28} /> : <Menu size={28} />}
+            <Menu size={32} />
           </motion.button>
 
-          {/* 🔓 NOT LOGGED IN */}
-          {!token && (
-            <>
-              <motion.div whileHover={{ scale: 1.05 }}>
-                <Link
-                  to="/login"
-                  className="hidden sm:block px-4 py-2 rounded-lg
-                             border border-white/20 bg-white/10
-                             backdrop-blur-md text-sm"
-                >
-                  Login
-                </Link>
-              </motion.div>
-
-              <motion.div whileHover={{ scale: 1.05 }}>
-                <Link
-                  to="/signup"
-                  className="hidden sm:block px-4 py-2 rounded-lg
-                             bg-primary text-primary-foreground text-sm"
-                >
-                  Signup
-                </Link>
-              </motion.div>
-            </>
-          )}
-
-          {/* 👤 USER */}
-          {token && role === "USER" && (
-            <>
+          {/* Auth Buttons (Right) */}
+          <div className="flex items-center gap-4">
+            {!token && (
+              <>
+                <motion.div whileHover={{ scale: 1.05 }}>
+                  <Link
+                    to="/login"
+                    className="hidden sm:block px-4 py-2 rounded-lg
+                               border border-white/20 bg-white/10
+                               backdrop-blur-md text-sm text-white font-medium"
+                  >
+                    Login
+                  </Link>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }}>
+                  <Link
+                    to="/signup"
+                    className="hidden sm:block px-4 py-2 rounded-lg
+                               bg-primary text-primary-foreground text-sm font-semibold shadow-lg shadow-primary/20"
+                  >
+                    Signup
+                  </Link>
+                </motion.div>
+              </>
+            )}
+            {token && (
               <button
                 onClick={logout}
-                className="hidden sm:block text-sm text-red-400"
+                className="hidden sm:block text-sm text-red-400 font-medium hover:text-red-300 transition-colors"
               >
                 Logout
               </button>
-            </>
-          )}
-
-          {/* 🛠 ADMIN */}
-          {token && role === "ADMIN" && (
-            <>
-              <Link
-                to="/admin"
-                className="hidden sm:block text-sm hover:text-primary"
-              >
-                Admin
-              </Link>
-              <button
-                onClick={logout}
-                className="hidden sm:block text-sm text-red-400"
-              >
-                Logout
-              </button>
-            </>
-          )}
+            )}
+          </div>
         </div>
       </motion.nav>
 
-      {/* Popup Menu */}
+      {/* Corner Menu Overlay */}
       <AnimatePresence>
         {open && (
-          <motion.div
-            ref={menuRef}
-            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            transition={{ duration: 0.18, ease: "easeOut" }}
-            className="fixed top-[96px] right-6 z-[100] w-64
-                       backdrop-blur-2xl bg-white/10
-                       border border-white/20
-                       rounded-2xl shadow-2xl p-6"
-          >
-            <div className="flex flex-col gap-4 text-sm font-medium">
-              {navItems.map((item) => (
-                <motion.button
-                  key={item}
-                  whileHover={{ x: 4 }}
-                  onClick={() => scrollToSection(item)}
-                  className="text-left hover:text-primary"
-                >
-                  {item}
-                </motion.button>
-              ))}
+          <>
+            {/* Backdrop click to close */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 z-[110] bg-black/40 backdrop-blur-sm"
+            />
+            
+            <motion.div
+              initial={{ x: -20, y: -20, opacity: 0, scale: 0.95 }}
+              animate={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+              exit={{ x: -20, y: -20, opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="fixed top-6 left-6 z-[120] w-[320px] bg-black border border-white/10 
+                         rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-10 overflow-hidden"
+            >
+              {/* Blue Glow Background Accent */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full blur-3xl -mr-16 -mt-16" />
+              
+              <div className="relative z-10">
+                <div className="flex flex-col gap-10">
+                  <div className="flex justify-start">
+                    <motion.button
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => setOpen(false)}
+                      className="text-white/60 hover:text-white transition-colors"
+                    >
+                      <X size={32} />
+                    </motion.button>
+                  </div>
 
-              {token && (
-                <motion.button
-                  whileHover={{ x: 4 }}
-                  onClick={logout}
-                  className="text-left text-red-400"
-                >
-                  Logout
-                </motion.button>
-              )}
-            </div>
-          </motion.div>
+                  <div className="flex flex-col gap-6">
+                    {navItems.map((item, index) => (
+                      <motion.div
+                        key={item}
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.05 * index }}
+                      >
+                        <button
+                          onClick={() => scrollToSection(item)}
+                          className="group relative text-3xl font-bold text-white hover:text-blue-500 
+                                   transition-all duration-300 text-left uppercase tracking-tight"
+                        >
+                          <span className="relative z-10">{item}</span>
+                          <motion.div 
+                            className="absolute -bottom-1 left-0 h-1 bg-blue-500 w-0 group-hover:w-full transition-all duration-300"
+                          />
+                        </button>
+                      </motion.div>
+                    ))}
+
+                    {token && (
+                      <motion.button
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                        onClick={logout}
+                        className="text-lg font-bold text-red-500 hover:text-red-400 mt-4 transition-colors uppercase text-left"
+                      >
+                        Logout
+                      </motion.button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
