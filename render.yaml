@@ -5,15 +5,13 @@ services:
     region: singapore
     plan: free
     rootDir: server
-    buildCommand: npm install && npx prisma generate
+    buildCommand: npm install && npm run build && npx prisma generate
     startCommand: node dist/src/server.js
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 5000
       - key: FRONTEND_URL
-        value: https://vedinc.co.in
+        value: https://vedinc-launchpad-main.vercel.app
       - key: JWT_SECRET
         sync: false
       - key: DATABASE_URL
