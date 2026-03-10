@@ -10,18 +10,25 @@ const app = express();
 
 app.use(helmet());
 
-// Allow requests from frontend (Hostinger) and localhost for dev
-const allowedOrigins = [
-    process.env.FRONTEND_URL,
-    "http://localhost:8080",
-    "https://vedinc.co.in",
-    "https://www.vedinc.co.in",
-    "https://vedinc-launchpad-main.onrender.com",
-].filter(Boolean) as string[];
-
+// Allow requests from Vercel frontend, Render, and localhost
 app.use(
     cors({
-        origin: allowedOrigins,
+        origin: (origin, callback) => {
+            const allowedOrigins = [
+                process.env.FRONTEND_URL,
+                "http://localhost:8080",
+                "https://vedinc-launchpad-main.onrender.com",
+            ].filter(Boolean);
+
+            // Allow requests with no origin (server-to-server, Postman, etc.)
+            if (!origin) return callback(null, true);
+            // Allow Vercel preview URLs (*.vercel.app)
+            if (origin.endsWith(".vercel.app")) return callback(null, true);
+            // Allow explicitly listed origins
+            if (allowedOrigins.includes(origin)) return callback(null, true);
+
+            callback(new Error("Not allowed by CORS"));
+        },
         credentials: true,
     })
 );

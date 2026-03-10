@@ -6,6 +6,10 @@ node_modules/
 .env.local
 .env.*.local
 
+# Build output (Vercel builds automatically)
+dist/
+dist-ssr/
+server/dist/
 
 # Logs
 logs
