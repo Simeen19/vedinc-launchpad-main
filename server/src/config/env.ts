@@ -1,9 +1,7 @@
 import dotenv from "dotenv";
-import path from "path";
 
-// Load .env from server/ directory first, then fall back to project root
-dotenv.config({ path: path.resolve(process.cwd(), ".env") });
-dotenv.config({ path: path.resolve(process.cwd(), "..", ".env") });
+// Load .env file (for local development; Render provides env vars natively)
+dotenv.config();
 
 export const env = {
     PORT: process.env.PORT || 5000,
